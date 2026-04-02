@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PetVital — 수의사가 설계한 맞춤 영양</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #e8efe8;
+      --bg-dark: #dde8dd;
+      --green-deep: #1a4d2e;
+      --green-mid: #2d6a4f;
+      --green-light: #52b788;
+      --green-pale: #b7e4c7;
+      --white: #ffffff;
+      --text-dark: #1a2e1a;
+      --text-mid: #3a5a3a;
+      --text-light: #6a8f6a;
+      --shadow-light: #ffffff;
+      --shadow-dark: #c5d4c5;
+      --neu-outer: 6px 6px 14px #c5d4c5, -6px -6px 14px #ffffff;
+      --neu-outer-lg: 10px 10px 24px #c0d0c0, -10px -10px 24px #ffffff;
+      --neu-inset: inset 4px 4px 10px #c5d4c5, inset -4px -4px 10px #ffffff;
+      --neu-inset-sm: inset 2px 2px 6px #c5d4c5, inset -2px -2px 6px #ffffff;
+      --radius: 20px;
+      --radius-lg: 32px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-dark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 60px;
+      background: rgba(232, 239, 232, 0.85);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 2px 20px rgba(26, 77, 46, 0.08);
+    }
+
+    .nav-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--green-deep);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span {
+      color: var(--green-light);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--green-deep); }
+
+    .nav-cta {
+      padding: 10px 24px;
+      background: var(--green-deep);
+      color: var(--white) !important;
+      border-radius: 50px;
+      font-weight: 700 !important;
+      box-shadow: var(--neu-outer);
+      transition: transform 0.2s, box-shadow 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--neu-outer-lg) !important;
+      color: var(--white) !important;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 60px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .hero-blob-1 {
+      width: 520px; height: 520px;
+      background: var(--green-light);
+      top: -100px; right: -80px;
+    }
+
+    .hero-blob-2 {
+      width: 340px; height: 340px;
+      background: var(--green-pale);
+      bottom: 60px; left: 40px;
+    }
+
+    .hero-content {
+      max-width: 600px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 50px;
+      background: var(--bg);
+      box-shadow: var(--neu-outer);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--green-mid);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green-light);
+      box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(82,183,136,0.3); }
+      50% { box-shadow: 0 0 0 6px rgba(82,183,136,0.1); }
+    }
+
+    .hero-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.8rem, 5vw, 4.4rem);
+      line-height: 1.1;
+      color: var(--green-deep);
+      margin-bottom: 12px;
+      letter-spacing: -1.5px;
+    }
+
+    .hero-title-ko {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--green-mid);
+      margin-bottom: 24px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-light);
+      margin-bottom: 44px;
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      background: var(--green-deep);
+      color: var(--white);
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 8px 8px 20px #b8cbb8, -4px -4px 12px #ffffff, inset 0 1px 0 rgba(255,255,255,0.15);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 12px 12px 28px #b0c8b0, -4px -4px 12px #ffffff, inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+
+    .btn-primary svg { transition: transform 0.2s; }
+    .btn-primary:hover svg { transform: translateX(4px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      background: var(--bg);
+      color: var(--green-deep);
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: var(--neu-outer);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--neu-outer-lg);
+    }
+
+    .hero-visual {
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .hero-card-group {
+      position: relative;
+      width: 420px;
+      height: 460px;
+    }
+
+    .hero-main-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 280px;
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--neu-outer-lg);
+      padding: 36px 28px;
+      text-align: center;
+    }
+
+    .hero-icon-wrap {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: var(--bg);
+      box-shadow: var(--neu-outer);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 3rem;
+    }
+
+    .hero-card-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--green-light);
+      margin-bottom: 6px;
+    }
+
+    .hero-card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 12px;
+    }
+
+    .hero-card-bar-wrap {
+      background: var(--bg);
+      border-radius: 50px;
+      box-shadow: var(--neu-inset-sm);
+      height: 8px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    .hero-card-bar {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--green-mid), var(--green-light));
+    }
+
+    .hero-card-stat {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      text-align: right;
+    }
+
+    .float-badge {
+      position: absolute;
+      background: var(--bg);
+      border-radius: var(--radius);
+      box-shadow: var(--neu-outer);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .float-badge-1 { top: 20px; right: 0; animation: float1 3s ease-in-out infinite; }
+    .float-badge-2 { bottom: 40px; left: 0; animation: float2 3.5s ease-in-out infinite; }
+    .float-badge-3 { top: 100px; left: -20px; animation: float3 4s ease-in-out infinite; }
+
+    @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    @keyframes float3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    .float-icon { font-size: 1.4rem; }
+
+    .float-text { font-size: 0.78rem; }
+    .float-text strong { display: block; font-weight: 700; color: var(--green-deep); font-size: 0.88rem; }
+    .float-text span { color: var(--text-light); }
+
+    /* ── STATS ── */
+    .stats-strip {
+      padding: 32px 60px;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .stats-inner {
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--neu-outer-lg);
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .stat-item {
+      flex: 1;
+      padding: 28px 32px;
+      text-align: center;
+      position: relative;
+    }
+
+    .stat-item + .stat-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 20%; bottom: 20%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--shadow-dark), transparent);
+    }
+
+    .stat-num {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 2.2rem;
+      color: var(--green-deep);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-num em {
+      font-style: normal;
+      color: var(--green-light);
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    /* ── SECTION COMMONS ── */
+    section { padding: 80px 60px; }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--green-mid);
+      margin-bottom: 12px;
+    }
+
+    .section-tag::before {
+      content: '';
+      width: 20px; height: 2px;
+      background: var(--green-light);
+      border-radius: 2px;
+    }
+
+    .section-title {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      color: var(--green-deep);
+      line-height: 1.3;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-desc {
+      font-size: 1rem;
+      color: var(--text-light);
+      line-height: 1.8;
+      max-width: 500px;
+    }
+
+    /* ── PRODUCTS ── */
+    #products { background: var(--bg); }
+
+    .products-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .products-header .section-desc { margin: 0 auto; }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--neu-outer-lg);
+      padding: 40px 32px 36px;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      background: linear-gradient(90deg, var(--green-mid), var(--green-light));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 14px 14px 32px #b8ccb8, -8px -8px 20px #ffffff;
+    }
+
+    .product-card:hover::before { opacity: 1; }
+
+    .product-card.featured {
+      background: var(--green-deep);
+      box-shadow: 10px 10px 28px #b0c8b0, -4px -4px 12px rgba(255,255,255,0.5);
+    }
+
+    .product-card.featured::before {
+      background: linear-gradient(90deg, var(--green-light), var(--green-pale));
+      opacity: 1;
+    }
+
+    .product-icon-wrap {
+      width: 76px; height: 76px;
+      border-radius: 22px;
+      background: var(--bg);
+      box-shadow: var(--neu-outer);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin-bottom: 24px;
+    }
+
+    .product-card.featured .product-icon-wrap {
+      background: rgba(255,255,255,0.12);
+      box-shadow: inset 2px 2px 6px rgba(0,0,0,0.2), inset -2px -2px 6px rgba(255,255,255,0.1);
+    }
+
+    .product-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .badge-new { background: rgba(82,183,136,0.15); color: var(--green-mid); }
+    .badge-best { background: rgba(255,200,50,0.18); color: #9a7300; }
+    .badge-eco { background: rgba(82,183,136,0.15); color: var(--green-mid); }
+
+    .product-card.featured .badge-best {
+      background: rgba(255,200,50,0.25);
+      color: #ffd060;
+    }
+
+    .product-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 10px;
+    }
+
+    .product-card.featured .product-name { color: var(--white); }
+
+    .product-desc {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .product-card.featured .product-desc { color: rgba(255,255,255,0.65); }
+
+    .product-ingredients {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 28px;
+    }
+
+    .ingredient-tag {
+      padding: 4px 12px;
+      border-radius: 50px;
+      background: var(--bg);
+      box-shadow: var(--neu-outer);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-mid);
+    }
+
+    .product-card.featured .ingredient-tag {
+      background: rgba(255,255,255,0.12);
+      box-shadow: inset 1px 1px 4px rgba(0,0,0,0.15), inset -1px -1px 4px rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .product-price {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--green-deep);
+    }
+
+    .product-card.featured .product-price { color: var(--white); }
+
+    .product-price small {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--text-light);
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    .product-card.featured .product-price small { color: rgba(255,255,255,0.55); }
+
+    .btn-product {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--neu-outer);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-deep);
+      font-size: 1.2rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-product:hover {
+      transform: scale(1.1);
+      box-shadow: var(--neu-outer-lg);
+    }
+
+    .product-card.featured .btn-product {
+      background: var(--green-light);
+      box-shadow: 4px 4px 10px rgba(0,0,0,0.2), -2px -2px 6px rgba(255,255,255,0.1);
+      color: var(--white);
+    }
+
+    /* ── REVIEWS ── */
+    #reviews {
+      background: var(--bg);
+      padding: 80px 60px;
+    }
+
+    .reviews-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .reviews-left .section-desc { max-width: 400px; }
+
+    .reviews-overall {
+      margin-top: 36px;
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--neu-outer-lg);
+      padding: 28px 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .overall-score {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 3rem;
+      color: var(--green-deep);
+      line-height: 1;
+    }
+
+    .overall-score small {
+      font-size: 1rem;
+      color: var(--text-light);
+      font-weight: 400;
+    }
+
+    .overall-right { }
+
+    .stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 6px;
+    }
+
+    .star { font-size: 1.1rem; }
+
+    .overall-label {
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .reviews-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .review-card {
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--neu-outer-lg);
+      padding: 32px;
+      transition: transform 0.3s;
+    }
+
+    .review-card:hover { transform: translateY(-4px); }
+
+    .review-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .review-avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--bg);
+      box-shadow: var(--neu-outer);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .review-meta { }
+
+    .review-name {
+      font-weight: 700;
+      color: var(--green-deep);
+      font-size: 0.95rem;
+    }
+
+    .review-sub {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
+    .review-stars {
+      margin-left: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .review-stars .stars { gap: 2px; }
+    .review-stars .star { font-size: 0.85rem; }
+
+    .review-product-tag {
+      font-size: 0.7rem;
+      padding: 2px 10px;
+      background: var(--bg);
+      box-shadow: var(--neu-inset-sm);
+      border-radius: 50px;
+      color: var(--green-mid);
+      font-weight: 600;
+    }
+
+    .review-text {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .review-text::before {
+      content: '"';
+      position: absolute;
+      left: 0; top: -4px;
+      font-size: 2rem;
+      color: var(--green-pale);
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    /* ── CTA ── */
+    #cta {
+      padding: 80px 60px;
+    }
+
+    .cta-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--green-deep);
+      border-radius: 40px;
+      box-shadow: 14px 14px 36px #b0c8b0, -8px -8px 20px #ffffff;
+      padding: 70px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .cta-blob-1 {
+      width: 300px; height: 300px;
+      background: var(--green-light);
+      top: -100px; right: -60px;
+    }
+
+    .cta-blob-2 {
+      width: 200px; height: 200px;
+      background: var(--green-pale);
+      bottom: -60px; left: 60px;
+    }
+
+    .cta-left { position: relative; z-index: 2; }
+
+    .cta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--green-pale);
+      margin-bottom: 12px;
+    }
+
+    .cta-title {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      color: var(--white);
+      line-height: 1.35;
+      margin-bottom: 14px;
+      letter-spacing: -0.3px;
+    }
+
+    .cta-desc {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+    }
+
+    .cta-right {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .btn-cta-main {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 18px 40px;
+      background: var(--white);
+      color: var(--green-deep);
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 6px 6px 16px rgba(0,0,0,0.25), -2px -2px 8px rgba(255,255,255,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-cta-main:hover {
+      transform: translateY(-3px);
+      box-shadow: 10px 10px 24px rgba(0,0,0,0.3), -2px -2px 8px rgba(255,255,255,0.08);
+    }
+
+    .btn-cta-sub {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 32px;
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .btn-cta-sub:hover {
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 40px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--shadow-dark);
+    }
+
+    .footer-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: var(--green-deep);
+    }
+
+    .footer-logo span { color: var(--green-light); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--green-deep); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      nav { padding: 18px 32px; }
+      #hero { padding: 120px 32px 80px; }
+      .hero-visual { display: none; }
+      section, #reviews, #cta { padding: 60px 32px; }
+      .stats-strip { padding: 32px; }
+      .products-grid { grid-template-columns: 1fr; max-width: 420px; }
+      .reviews-layout { grid-template-columns: 1fr; }
+      .cta-inner { flex-direction: column; padding: 48px 36px; text-align: center; }
+      .cta-right { width: 100%; }
+      .btn-cta-main, .btn-cta-sub { width: 100%; }
+      footer { flex-direction: column; gap: 16px; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Pet<span>Vital</span></div>
+    <ul class="nav-links">
+      <li><a href="#hero">홈</a></li>
+      <li><a href="#products">제품</a></li>
+      <li><a href="#reviews">후기</a></li>
+      <li><a href="#cta" class="nav-cta">지금 시작하기</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">수의사 인증 브랜드</div>
+      <div class="hero-title">PetVital</div>
+      <div class="hero-title-ko">수의사가 설계한 맞춤 영양</div>
+      <p class="hero-desc">
+        반려동물의 나이, 품종, 건강 상태에 맞춰 처방하듯 설계된 프리미엄 영양제.
+        과학적 근거와 천연 성분으로 우리 아이의 건강한 하루를 만들어 드립니다.
+      </p>
+      <div class="hero-actions">
+        <a href="#products" class="btn-primary">
+          제품 둘러보기
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#reviews" class="btn-secondary">
+          고객 후기 보기
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-card-group">
+        <div class="hero-main-card">
+          <div class="hero-icon-wrap">🐾</div>
+          <div class="hero-card-label">건강 지수</div>
+          <div class="hero-card-title">맞춤 영양 분석</div>
+          <div class="hero-card-bar-wrap"><div class="hero-card-bar" style="width:88%"></div></div>
+          <div class="hero-card-stat">면역력 88%</div>
+          <div class="hero-card-bar-wrap" style="margin-top:8px"><div class="hero-card-bar" style="width:72%"></div></div>
+          <div class="hero-card-stat">관절 건강 72%</div>
+          <div class="hero-card-bar-wrap" style="margin-top:8px"><div class="hero-card-bar" style="width:95%"></div></div>
+          <div class="hero-card-stat">소화 건강 95%</div>
+        </div>
+
+        <div class="float-badge float-badge-1">
+          <div class="float-icon">⭐</div>
+          <div class="float-text">
+            <strong>4.9점</strong>
+            <span>1,200+ 리뷰</span>
+          </div>
+        </div>
+
+        <div class="float-badge float-badge-2">
+          <div class="float-icon">🔬</div>
+          <div class="float-text">
+            <strong>임상 검증</strong>
+            <span>수의사 추천 98%</span>
+          </div>
+        </div>
+
+        <div class="float-badge float-badge-3">
+          <div class="float-icon">🌿</div>
+          <div class="float-text">
+            <strong>천연 성분</strong>
+            <span>합성 첨가물 0%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num">12<em>K+</em></div>
+        <div class="stat-label">반려동물 고객</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">98<em>%</em></div>
+        <div class="stat-label">수의사 추천율</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4.9<em>★</em></div>
+        <div class="stat-label">평균 만족도</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">0<em>개</em></div>
+        <div class="stat-label">합성 첨가물</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="products-header">
+      <div class="section-tag">우리의 제품</div>
+      <h2 class="section-title">반려동물 맞춤 영양제 라인업</h2>
+      <p class="section-desc">각 제품은 수의사의 처방 데이터를 바탕으로 배합된 프리미엄 영양 포뮬러입니다.</p>
+    </div>
+
+    <div class="products-grid">
+
+      <!-- Product 1 -->
+      <div class="product-card">
+        <div class="product-icon-wrap">🛡️</div>
+        <div class="product-badge badge-new">New</div>
+        <div class="product-name">이뮨 부스터 플러스</div>
+        <p class="product-desc">강아지와 고양이의 면역 체계를 강화하는 종합 영양 복합체. 항산화 성분과 프로바이오틱스가 균형 있게 배합되었습니다.</p>
+        <div class="product-ingredients">
+          <span class="ingredient-tag">베타글루칸</span>
+          <span class="ingredient-tag">비타민C·E</span>
+          <span class="ingredient-tag">유산균</span>
+          <span class="ingredient-tag">아연</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">₩38,000<small>/월</small></div>
+          <button class="btn-product">→</button>
+        </div>
+      </div>
+
+      <!-- Product 2 (Featured) -->
+      <div class="product-card featured">
+        <div class="product-icon-wrap">🦴</div>
+        <div class="product-badge badge-best">Best Seller</div>
+        <div class="product-name">조인트 케어 포뮬러</div>
+        <p class="product-desc">관절이 약한 중·노령 반려동물을 위한 전문 조성. 연골 재생을 돕고 염증 반응을 억제하는 임상 검증 성분을 담았습니다.</p>
+        <div class="product-ingredients">
+          <span class="ingredient-tag">글루코사민</span>
+          <span class="ingredient-tag">콘드로이틴</span>
+          <span class="ingredient-tag">MSM</span>
+          <span class="ingredient-tag">오메가-3</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">₩45,000<small>/월</small></div>
+          <button class="btn-product">→</button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card">
+        <div class="product-icon-wrap">🌿</div>
+        <div class="product-badge badge-eco">천연 원료</div>
+        <div class="product-name">다이제스트 밸런스</div>
+        <p class="product-desc">민감한 소화계를 가진 반려동물을 위한 장 건강 전문 영양제. 유익균을 늘리고 소화 흡수율을 높여 설사·구토를 줄입니다.</p>
+        <div class="product-ingredients">
+          <span class="ingredient-tag">프리바이오틱스</span>
+          <span class="ingredient-tag">프로바이오틱스</span>
+          <span class="ingredient-tag">소화 효소</span>
+          <span class="ingredient-tag">생강</span>
+        </div>
+        <div class="product-footer">
+          <div class="product-price">₩32,000<small>/월</small></div>
+          <button class="btn-product">→</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews">
+    <div class="reviews-layout">
+      <div class="reviews-left">
+        <div class="section-tag">고객 후기</div>
+        <h2 class="section-title">반려동물의 변화를<br/>직접 확인하세요</h2>
+        <p class="section-desc">
+          실제 보호자와 반려동물이 경험한 생생한 후기를 소개합니다.
+          PetVital과 함께 시작된 건강한 변화를 만나보세요.
+        </p>
+        <div class="reviews-overall">
+          <div class="overall-score">4.9<small>/5</small></div>
+          <div class="overall-right">
+            <div class="stars">
+              <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+            </div>
+            <div class="overall-label">1,247개의 인증된 리뷰</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reviews-cards">
+
+        <!-- Review 1 -->
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">🐶</div>
+            <div class="review-meta">
+              <div class="review-name">김지수 님</div>
+              <div class="review-sub">말티즈 7살 · 관절 케어 3개월</div>
+            </div>
+            <div class="review-stars">
+              <div class="stars">
+                <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+              </div>
+              <div class="review-product-tag">조인트 케어</div>
+            </div>
+          </div>
+          <p class="review-text">
+            계단을 오르던 것도 힘들어했던 우리 뭉치가 요즘은 공원에서 뛰어다닐 정도로 좋아졌어요.
+            3개월째 꾸준히 먹이고 있는데 수의사 선생님도 관절 상태가 많이 개선됐다고 하셔서 너무 뿌듯했습니다.
+            천연 성분이라 안심하고 먹일 수 있는 것도 큰 장점이에요!
+          </p>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">🐱</div>
+            <div class="review-meta">
+              <div class="review-name">박현우 님</div>
+              <div class="review-sub">스코티시폴드 4살 · 면역 부스터 2개월</div>
+            </div>
+            <div class="review-stars">
+              <div class="stars">
+                <span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span><span class="star">⭐</span>
+              </div>
+              <div class="review-product-tag">이뮨 부스터</div>
+            </div>
+          </div>
+          <p class="review-text">
+            예전엔 계절 바뀔 때마다 꼭 한 번씩 아팠는데, 이뮨 부스터 먹인 뒤로 감기 한 번 안 걸렸어요.
+            털도 윤기가 생기고 눈곱도 많이 줄었습니다. 급여 방법도 간편해서 간식처럼 줄 수 있어 고양이가 거부 반응 없이 잘 먹어요.
+            PetVital 강력 추천합니다!
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta">
+    <div class="cta-inner">
+      <div class="cta-blob cta-blob-1"></div>
+      <div class="cta-blob cta-blob-2"></div>
+
+      <div class="cta-left">
+        <div class="cta-tag">🎁 첫 구매 혜택</div>
+        <h2 class="cta-title">지금 시작하면<br/>첫 달 30% 할인 + 무료 배송</h2>
+        <p class="cta-desc">수의사와 상담 후 맞춤 제품을 추천받고,<br/>첫 달 30% 할인 혜택으로 부담 없이 시작하세요.</p>
+      </div>
+
+      <div class="cta-right">
+        <a href="#products" class="btn-cta-main">
+          🐾 지금 맞춤 영양제 시작하기
+        </a>
+        <a href="#reviews" class="btn-cta-sub">
+          고객 후기 먼저 보기 →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Pet<span>Vital</span></div>
+    <div class="footer-copy">© 2026 PetVital. 수의사가 설계한 맞춤 영양.</div>
+    <ul class="footer-links">
+      <li><a href="#">이용약관</a></li>
+      <li><a href="#">개인정보처리방침</a></li>
+      <li><a href="#">고객센터</a></li>
+    </ul>
+  </footer>
+
+</body>
+</html>
