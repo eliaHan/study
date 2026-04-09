@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Strategic Analyst — 경쟁사 전략 분석</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d2e;
+      --surface2: #242740;
+      --border: #2e3250;
+      --accent: #6c63ff;
+      --accent2: #4ecdc4;
+      --accent3: #ff6b6b;
+      --text: #e8eaf0;
+      --text2: #9ba3c0;
+      --text3: #5c6380;
+      --success: #2dd4a0;
+      --warning: #f5a623;
+      --danger: #ff5c5c;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-badge {
+      font-size: 11px;
+      background: var(--accent);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Layout ── */
+    .app {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      color: var(--text2);
+      font-size: 16px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    /* ── API Key ── */
+    .api-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input, select, textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 14px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: inherit;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: var(--text3);
+    }
+
+    .api-input {
+      flex: 1;
+      font-family: 'SF Mono', monospace;
+      font-size: 13px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #5a52e8;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid transparent;
+      padding: 8px 10px;
+    }
+
+    .btn-danger:hover {
+      background: rgba(255, 92, 92, 0.1);
+      border-color: var(--danger);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      font-size: 16px;
+      padding: 14px 32px;
+      border-radius: var(--radius);
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(108, 99, 255, 0.4);
+    }
+
+    .btn-success:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── Competitors ── */
+    .competitor-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .competitor-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+      align-items: center;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      transition: border-color 0.2s;
+    }
+
+    .competitor-item:hover {
+      border-color: var(--accent);
+    }
+
+    .competitor-num {
+      font-size: 11px;
+      color: var(--text3);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .competitor-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .competitor-input-group input {
+      background: transparent;
+      border: none;
+      padding: 4px 0;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+      border-radius: 0;
+    }
+
+    .competitor-input-group input:focus {
+      border-bottom-color: var(--accent);
+      box-shadow: none;
+    }
+
+    .add-competitor-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text3);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      font-weight: 500;
+    }
+
+    .add-competitor-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(108, 99, 255, 0.05);
+    }
+
+    /* ── Options ── */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .option-group label {
+      display: block;
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .option-group select {
+      width: 100%;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text2);
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      padding: 0;
+    }
+
+    /* ── Progress ── */
+    .progress-container {
+      display: none;
+      margin-bottom: 24px;
+    }
+
+    .progress-container.visible {
+      display: block;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .progress-label { color: var(--text2); }
+    .progress-pct { color: var(--accent); font-weight: 600; }
+
+    .progress-bar {
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 3px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    .progress-steps {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--surface2);
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--text3);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+
+    .progress-step.active {
+      background: rgba(108, 99, 255, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .progress-step.done {
+      background: rgba(45, 212, 160, 0.1);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .step-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ── Results ── */
+    .results-container {
+      display: none;
+    }
+
+    .results-container.visible {
+      display: block;
+    }
+
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .results-title {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .results-meta {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 4px;
+    }
+
+    .results-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* ── Tab Navigation ── */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 6px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tab {
+      flex-shrink: 0;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text2);
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .tab:hover {
+      color: var(--text);
+      background: var(--surface2);
+    }
+
+    .tab.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* ── Tab Content ── */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* ── Comparison Grid ── */
+    .comparison-grid {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      min-width: 600px;
+    }
+
+    .comparison-table th {
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--text2);
+      border-bottom: 2px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .comparison-table th:first-child {
+      color: var(--text3);
+      width: 160px;
+    }
+
+    .comparison-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .comparison-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .comparison-table tr:hover td {
+      background: var(--surface2);
+    }
+
+    .company-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .company-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .row-label {
+      font-weight: 600;
+      color: var(--text2);
+      font-size: 12px;
+    }
+
+    /* ── Analysis Report ── */
+    .report-content {
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .report-section {
+      margin-bottom: 28px;
+    }
+
+    .report-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .report-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text2);
+      margin: 16px 0 8px;
+    }
+
+    .report-section p {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+
+    .report-section ul, .report-section ol {
+      font-size: 14px;
+      color: var(--text2);
+      padding-left: 20px;
+      line-height: 1.8;
+    }
+
+    .report-section li {
+      margin-bottom: 6px;
+    }
+
+    .report-section table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 12px 0;
+    }
+
+    .report-section table th {
+      background: var(--surface2);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text2);
+      font-size: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .report-section table td {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      color: var(--text2);
+      vertical-align: top;
+    }
+
+    .report-section blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 12px 16px;
+      background: rgba(108, 99, 255, 0.08);
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      color: var(--text);
+      margin: 12px 0;
+      line-height: 1.7;
+    }
+
+    .report-section code {
+      background: var(--surface2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--accent2);
+    }
+
+    .report-section pre {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: 13px;
+      margin: 12px 0;
+      color: var(--text2);
+    }
+
+    /* ── Insight Cards ── */
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .insight-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+
+    .insight-card-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .insight-card-value {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .insight-card-desc {
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    /* ── Confidence Badge ── */
+    .confidence {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .confidence-high { background: rgba(45, 212, 160, 0.15); color: var(--success); }
+    .confidence-mid { background: rgba(245, 166, 35, 0.15); color: var(--warning); }
+    .confidence-low { background: rgba(255, 92, 92, 0.15); color: var(--danger); }
+
+    /* ── Streaming text ── */
+    .streaming-text {
+      white-space: pre-wrap;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text2);
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 2px;
+      height: 16px;
+      background: var(--accent);
+      animation: blink 0.8s infinite;
+      vertical-align: text-bottom;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ── Markdown rendered ── */
+    .markdown-body h1 { font-size: 22px; font-weight: 700; margin: 24px 0 12px; }
+    .markdown-body h2 { font-size: 18px; font-weight: 700; margin: 20px 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .markdown-body h3 { font-size: 15px; font-weight: 600; color: var(--text2); margin: 16px 0 8px; }
+    .markdown-body h4 { font-size: 13px; font-weight: 600; color: var(--text2); margin: 12px 0 6px; }
+    .markdown-body p { font-size: 14px; color: var(--text2); line-height: 1.8; margin-bottom: 10px; }
+    .markdown-body ul, .markdown-body ol { font-size: 14px; color: var(--text2); padding-left: 20px; margin-bottom: 10px; }
+    .markdown-body li { margin-bottom: 6px; line-height: 1.7; }
+    .markdown-body blockquote { border-left: 3px solid var(--accent); padding: 12px 16px; background: rgba(108, 99, 255, 0.08); border-radius: 0 8px 8px 0; margin: 12px 0; }
+    .markdown-body blockquote p { margin: 0; color: var(--text); }
+    .markdown-body table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+    .markdown-body th { background: var(--surface2); padding: 10px 14px; text-align: left; font-weight: 600; color: var(--text2); font-size: 12px; border: 1px solid var(--border); }
+    .markdown-body td { padding: 10px 14px; border: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+    .markdown-body code { background: var(--surface2); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; color: var(--accent2); }
+    .markdown-body pre { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; overflow-x: auto; font-family: monospace; font-size: 13px; margin: 12px 0; }
+    .markdown-body pre code { background: none; padding: 0; }
+    .markdown-body strong { color: var(--text); font-weight: 600; }
+    .markdown-body hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+    /* ── Per-company results ── */
+    .company-result {
+      margin-bottom: 32px;
+    }
+
+    .company-result-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .company-result-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .company-result-name {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .company-result-url {
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    /* ── Error ── */
+    .error-box {
+      background: rgba(255, 92, 92, 0.1);
+      border: 1px solid var(--danger);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      color: var(--danger);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      font-size: 14px;
+      color: var(--text);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      z-index: 999;
+      display: none;
+      animation: slideUp 0.3s ease;
+    }
+
+    .toast.visible {
+      display: block;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .app { padding: 20px 16px; }
+      .hero h1 { font-size: 24px; }
+      .competitor-item { grid-template-columns: 1fr auto; }
+      .competitor-item .url-input { grid-column: 1; }
+      .api-row { flex-direction: column; }
+      .api-input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    <div class="logo-text">Strategic Analyst</div>
+  </div>
+  <div class="header-badge">McKinsey-level AI</div>
+</header>
+
+<div class="app">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>경쟁사 전략 분석 플랫폼</h1>
+    <p>여러 경쟁사를 동시에 입력하고, AI가 5개 전략 축으로 심층 분석합니다.</p>
+    <div class="hero-badges">
+      <span class="badge">① 경쟁사 분석</span>
+      <span class="badge">② 제품 전략</span>
+      <span class="badge">③ 시장 포지셔닝</span>
+      <span class="badge">④ UX 리뷰</span>
+      <span class="badge">⑤ 사업성 검토</span>
+    </div>
+  </div>
+
+  <!-- API Key -->
+  <div class="card" id="api-card">
+    <div class="card-title"><span></span>Claude API 키</div>
+    <div class="api-row">
+      <input
+        type="password"
+        id="api-key"
+        class="api-input"
+        placeholder="sk-ant-api03-..."
+        autocomplete="off"
+      />
+      <button class="btn btn-secondary" onclick="toggleApiKey()">표시</button>
+      <button class="btn btn-secondary" onclick="saveApiKey()">저장</button>
+    </div>
+    <p style="font-size:12px;color:var(--text3);margin-top:10px;">
+      🔒 API 키는 브라우저 localStorage에만 저장되며 외부로 전송되지 않습니다.
+      <a href="https://console.anthropic.com/" target="_blank" style="color:var(--accent);text-decoration:none;">키 발급 →</a>
+    </p>
+  </div>
+
+  <!-- Competitors Input -->
+  <div class="card">
+    <div class="card-title"><span></span>분석할 경쟁사 입력</div>
+    <div class="competitor-list" id="competitor-list">
+      <!-- injected by JS -->
+    </div>
+    <button class="add-competitor-btn" onclick="addCompetitor()" style="margin-top:12px;">
+      + 경쟁사 추가
+    </button>
+  </div>
+
+  <!-- Options -->
+  <div class="card">
+    <div class="card-title"><span></span>분석 옵션</div>
+    <div class="options-grid">
+      <div class="option-group">
+        <label>분석 모델</label>
+        <select id="model-select">
+          <option value="claude-opus-4-6">Claude Opus 4.6 (최고 품질)</option>
+          <option value="claude-sonnet-4-6" selected>Claude Sonnet 4.6 (권장)</option>
+          <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 (빠름)</option>
+        </select>
+      </div>
+      <div class="option-group">
+        <label>분석 언어</label>
+        <select id="lang-select">
+          <option value="ko" selected>한국어</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      <div class="option-group">
+        <label>분석 깊이</label>
+        <select id="depth-select">
+          <option value="detailed" selected>상세 분석</option>
+          <option value="brief">핵심 요약</option>
+          <option value="executive">경영진 보고서</option>
+        </select>
+      </div>
+      <div class="option-group">
+        <label>분석 축 선택</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" class="axis-check" value="competitive" checked /> ① 경쟁사 분석
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="axis-check" value="product" checked /> ② 제품 전략
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="axis-check" value="positioning" checked /> ③ 시장 포지셔닝
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="axis-check" value="ux" checked /> ④ UX 리뷰
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" class="axis-check" value="viability" checked /> ⑤ 사업성 검토
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action -->
+  <div style="margin-bottom:32px;">
+    <div id="error-container"></div>
+    <button class="btn btn-success" id="analyze-btn" onclick="startAnalysis()">
+      ⚡ 전략 분석 시작
+    </button>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-container" id="progress-container">
+    <div class="card">
+      <div class="card-title"><span></span>분석 진행중</div>
+      <div class="progress-header">
+        <span class="progress-label" id="progress-label">초기화 중...</span>
+        <span class="progress-pct" id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-steps" id="progress-steps"></div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-container" id="results-container">
+    <div class="results-header">
+      <div>
+        <div class="results-title" id="results-title">분석 결과</div>
+        <div class="results-meta" id="results-meta"></div>
+      </div>
+      <div class="results-actions">
+        <button class="btn btn-secondary" onclick="copyResults()">📋 복사</button>
+        <button class="btn btn-secondary" onclick="downloadResults()">⬇️ 다운로드</button>
+        <button class="btn btn-secondary" onclick="resetAnalysis()">🔄 초기화</button>
+      </div>
+    </div>
+
+    <div class="tabs" id="results-tabs">
+      <!-- injected by JS -->
+    </div>
+
+    <div id="results-panels">
+      <!-- injected by JS -->
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let competitors = [];
+let analysisResults = {};
+let rawMarkdown = {};
+let currentCompetitorIdx = 0;
+
+const COLORS = [
+  '#6c63ff','#4ecdc4','#ff6b6b','#f5a623','#a78bfa',
+  '#34d399','#fb923c','#60a5fa','#f472b6','#4ade80'
+];
+
+// ── Init ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('anthropic_api_key');
+  if (saved) document.getElementById('api-key').value = saved;
+  addCompetitor();
+  addCompetitor();
+  addCompetitor();
+});
+
+// ── API Key ───────────────────────────────────────────────────────────────
+function toggleApiKey() {
+  const el = document.getElementById('api-key');
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+
+function saveApiKey() {
+  const key = document.getElementById('api-key').value.trim();
+  if (key) {
+    localStorage.setItem('anthropic_api_key', key);
+    showToast('✅ API 키가 저장되었습니다');
+  }
+}
+
+// ── Competitors ───────────────────────────────────────────────────────────
+function addCompetitor() {
+  const idx = competitors.length;
+  const id = Date.now() + Math.random();
+  competitors.push({ id, name: '', url: '' });
+  renderCompetitors();
+}
+
+function removeCompetitor(id) {
+  if (competitors.length <= 1) { showToast('⚠️ 최소 1개는 필요합니다'); return; }
+  competitors = competitors.filter(c => c.id !== id);
+  renderCompetitors();
+}
+
+function renderCompetitors() {
+  const list = document.getElementById('competitor-list');
+  list.innerHTML = competitors.map((c, i) => `
+    <div class="competitor-item" id="comp-${c.id}">
+      <div class="competitor-input-group">
+        <div class="competitor-num"># ${i + 1} 회사명 *</div>
+        <input
+          type="text"
+          placeholder="예: 카카오, Notion, Figma..."
+          value="${escHtml(c.name)}"
+          oninput="updateCompetitor('${c.id}', 'name', this.value)"
+        />
+      </div>
+      <div class="competitor-input-group url-input">
+        <div class="competitor-num">URL (선택)</div>
+        <input
+          type="text"
+          placeholder="https://..."
+          value="${escHtml(c.url)}"
+          oninput="updateCompetitor('${c.id}', 'url', this.value)"
+        />
+      </div>
+      <button class="btn btn-danger" onclick="removeCompetitor('${c.id}')" title="삭제">✕</button>
+    </div>
+  `).join('');
+}
+
+function updateCompetitor(id, field, value) {
+  const c = competitors.find(c => String(c.id) === String(id));
+  if (c) c[field] = value;
+}
+
+function escHtml(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Progress ──────────────────────────────────────────────────────────────
+function setProgress(pct, label, steps) {
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+  if (label) document.getElementById('progress-label').textContent = label;
+  if (steps) {
+    document.getElementById('progress-steps').innerHTML = steps.map(s =>
+      `<div class="progress-step ${s.state}"><div class="step-dot"></div>${s.label}</div>`
+    ).join('');
+  }
+}
+
+// ── Analysis ──────────────────────────────────────────────────────────────
+async function startAnalysis() {
+  const apiKey = document.getElementById('api-key').value.trim();
+  if (!apiKey) { showError('API 키를 입력해주세요.'); return; }
+
+  const validComps = competitors.filter(c => c.name.trim());
+  if (validComps.length === 0) { showError('최소 1개 이상의 회사명을 입력해주세요.'); return; }
+
+  const axes = [...document.querySelectorAll('.axis-check:checked')].map(el => el.value);
+  if (axes.length === 0) { showError('최소 1개 이상의 분석 축을 선택해주세요.'); return; }
+
+  clearError();
+
+  // UI switch
+  document.getElementById('analyze-btn').disabled = true;
+  document.getElementById('progress-container').classList.add('visible');
+  document.getElementById('results-container').classList.remove('visible');
+  analysisResults = {};
+  rawMarkdown = {};
+
+  const model = document.getElementById('model-select').value;
+  const lang = document.getElementById('lang-select').value;
+  const depth = document.getElementById('depth-select').value;
+
+  const stepList = validComps.map((c, i) => ({
+    label: c.name,
+    state: i === 0 ? 'active' : ''
+  }));
+
+  setProgress(5, `${validComps.length}개 회사 분석 시작...`, stepList);
+
+  try {
+    for (let i = 0; i < validComps.length; i++) {
+      const comp = validComps[i];
+      const pctStart = Math.round(10 + (i / validComps.length) * 85);
+      const pctEnd = Math.round(10 + ((i + 1) / validComps.length) * 85);
+
+      stepList[i].state = 'active';
+      setProgress(pctStart, `분석 중: ${comp.name}`, stepList);
+
+      const prompt = buildPrompt(comp, axes, lang, depth);
+      const result = await callClaude(apiKey, model, prompt, (chunk) => {
+        rawMarkdown[comp.name] = (rawMarkdown[comp.name] || '') + chunk;
+        // Update current company's panel live
+        const panelId = `panel-comp-${i}`;
+        const el = document.getElementById(panelId);
+        if (el) {
+          el.querySelector('.markdown-body').innerHTML = parseMarkdown(rawMarkdown[comp.name]);
+        }
+      });
+
+      rawMarkdown[comp.name] = result;
+      stepList[i].state = 'done';
+      setProgress(pctEnd, `완료: ${comp.name}`, stepList);
+    }
+
+    // All done
+    setProgress(100, '분석 완료!', stepList.map(s => ({...s, state: 'done'})));
+
+    setTimeout(() => {
+      document.getElementById('progress-container').classList.remove('visible');
+      renderResults(validComps);
+      document.getElementById('results-container').classList.add('visible');
+      document.getElementById('analyze-btn').disabled = false;
+    }, 800);
+
+  } catch (err) {
+    showError('분석 오류: ' + err.message);
+    document.getElementById('analyze-btn').disabled = false;
+    document.getElementById('progress-container').classList.remove('visible');
+  }
+}
+
+// ── Claude API call ───────────────────────────────────────────────────────
+async function callClaude(apiKey, model, prompt, onChunk) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true',
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: 4096,
+      stream: true,
+      messages: [{ role: 'user', content: prompt }],
+      system: systemPrompt(),
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `HTTP ${res.status}`);
+  }
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let full = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    const text = decoder.decode(value, { stream: true });
+    const lines = text.split('\n');
+    for (const line of lines) {
+      if (!line.startsWith('data: ')) continue;
+      const data = line.slice(6).trim();
+      if (data === '[DONE]') continue;
+      try {
+        const parsed = JSON.parse(data);
+        if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+          full += parsed.delta.text;
+          if (onChunk) onChunk(parsed.delta.text);
+        }
+      } catch {}
+    }
+  }
+  return full;
+}
+
+// ── Prompts ───────────────────────────────────────────────────────────────
+function systemPrompt() {
+  return `당신은 McKinsey급 전략 컨설턴트 + 실리콘밸리 Product Lead + UX Research 전문가를 겸비한 전략 분석가입니다.
+냉정하고 구체적이며 실행력 있는 분석을 제공합니다. 숫자와 근거를 우선합니다.
+불확실한 정보는 반드시 "추정" 또는 "공개 정보 없음"으로 표시합니다.
+마크다운 형식으로 구조화된 보고서를 작성합니다.`;
+}
+
+function buildPrompt(comp, axes, lang, depth) {
+  const langNote = lang === 'ko' ? '한국어로 작성하세요.' : 'Write in English.';
+  const depthNote = {
+    detailed: '상세하고 심층적인 분석',
+    brief: '핵심만 간결하게 요약 (각 섹션 3-5 bullet)',
+    executive: '경영진용 보고서 스타일, 의사결정 중심'
+  }[depth];
+
+  const axisMap = {
+    competitive: `## ① 경쟁사 분석 (Competitive Intelligence)
+- 직접 경쟁사 3~5개 식별 및 비교
+- 기능·가격·채널·타겟 매트릭스 (표 형식)
+- 경쟁사 대비 포지션 맵 설명
+- 블루오션 기회 영역 식별
+- 신뢰도: 🟢/🟡/🔴`,
+
+    product: `## ② 제품 전략 (Product Strategy)
+- 핵심 제품/서비스 라인업과 로드맵 추론
+- PMF 달성 수준 평가 (1~10점 + 근거 3개)
+- 수익화 모델 분석
+- 제품 차별화 요소 Top 3
+- 성장 저해 요인
+- 신뢰도: 🟢/🟡/🔴`,
+
+    positioning: `## ③ 시장 포지셔닝 (Market Positioning)
+- TAM/SAM/SOM 추정
+- 핵심 메시지 vs 실제 제품 정합성
+- 브랜드 포지셔닝 벡터 (Who/What/Why)
+- 가격 포지셔닝 전략
+- 포지셔닝 리스크
+- 신뢰도: 🟢/🟡/🔴`,
+
+    ux: `## ④ UX 리뷰 (UX Audit)
+- 온보딩 경험 평가
+- 핵심 사용자 플로우 마찰점
+- 정보 구조(IA) 명확성
+- 모바일/데스크탑 일관성
+- 개선 우선순위 (High/Med/Low 표)
+- 신뢰도: 🟢/🟡/🔴`,
+
+    viability: `## ⑤ 사업성 검토 (Business Viability)
+- 수익 모델 지속가능성
+- 성장 지표 신호
+- 번아웃/위험 요소
+- 투자·파트너십 현황
+- 12개월 시나리오 (낙관/중립/비관)
+- 신뢰도: 🟢/🟡/🔴`
+  };
+
+  const selectedAxes = axes.map(a => axisMap[a]).filter(Boolean).join('\n\n');
+  const compInfo = comp.url ? `회사명: ${comp.name}\n공식 URL: ${comp.url}` : `회사명: ${comp.name}`;
+
+  return `${langNote} 분석 스타일: ${depthNote}
+
+다음 회사를 전략적으로 분석해주세요:
+
+${compInfo}
+
+# ${comp.name} 전략 분석 보고서
+분석일: ${new Date().toLocaleDateString('ko-KR')} | 분석가: Strategic AI Analyst
+
+## 📍 한눈에 보기 (Executive Summary)
+> 3~4문장. 가장 중요한 발견 1개 + 핵심 기회 1개 + 핵심 위험 1개
+
+${selectedAxes}
+
+## 🎯 전략적 제언 Top 5
+각 제언마다: 실행 주체(누가), 타임라인(언제), 기대 효과(무엇이 바뀌나)를 포함
+
+## ⚠️ Watch Out (놓치기 쉬운 위험 신호)
+3~5개 항목`;
+}
+
+// ── Render Results ────────────────────────────────────────────────────────
+function renderResults(comps) {
+  const now = new Date().toLocaleString('ko-KR');
+  document.getElementById('results-title').textContent = `${comps.length}개 경쟁사 분석 완료`;
+  document.getElementById('results-meta').textContent = `분석 완료: ${now} · Claude AI 기반`;
+
+  // Tabs
+  const tabs = document.getElementById('results-tabs');
+  const panels = document.getElementById('results-panels');
+
+  // Tab items: Summary + per-company
+  const tabItems = [
+    { id: 'summary', label: '📊 전체 비교' },
+    ...comps.map((c, i) => ({
+      id: `comp-${i}`,
+      label: c.name,
+      color: COLORS[i % COLORS.length]
+    }))
+  ];
+
+  tabs.innerHTML = tabItems.map((t, i) => `
+    <button class="tab ${i === 0 ? 'active' : ''}" onclick="switchTab('${t.id}')" id="tab-${t.id}">
+      ${t.label}
+    </button>
+  `).join('');
+
+  // Summary panel
+  const summaryPanel = `
+    <div class="tab-content active report-content" id="panel-summary">
+      <div class="insight-grid">
+        ${comps.map((c, i) => `
+          <div class="insight-card">
+            <div class="insight-card-label" style="color:${COLORS[i % COLORS.length]}">${c.name}</div>
+            <div class="insight-card-value" style="color:${COLORS[i % COLORS.length]}">${i + 1}/${comps.length}</div>
+            <div class="insight-card-desc">${c.url || '직접 분석'} · 분석 완료</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="card">
+        <div class="card-title"><span></span>경쟁사 비교 매트릭스</div>
+        <div class="comparison-grid">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>분석 항목</th>
+                ${comps.map((c, i) => `
+                  <th>
+                    <div class="company-header">
+                      <div class="company-avatar" style="background:${COLORS[i % COLORS.length]}">${c.name.charAt(0)}</div>
+                      ${c.name}
+                    </div>
+                  </th>
+                `).join('')}
+              </tr>
+            </thead>
+            <tbody id="comparison-body">
+              <tr>
+                <td class="row-label">분석 상태</td>
+                ${comps.map(() => '<td style="color:var(--success)">✅ 완료</td>').join('')}
+              </tr>
+              <tr>
+                <td class="row-label">상세 분석</td>
+                ${comps.map((c, i) => `<td><button class="btn btn-secondary" style="font-size:12px;padding:6px 12px" onclick="switchTab('comp-${i}')">보기 →</button></td>`).join('')}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Per-company panels
+  const compPanels = comps.map((c, i) => `
+    <div class="tab-content report-content" id="panel-comp-${i}">
+      <div class="company-result-header">
+        <div class="company-result-avatar" style="background:${COLORS[i % COLORS.length]}">${c.name.charAt(0)}</div>
+        <div>
+          <div class="company-result-name">${c.name}</div>
+          ${c.url ? `<div class="company-result-url">${c.url}</div>` : ''}
+        </div>
+      </div>
+      <div class="card">
+        <div class="markdown-body">${parseMarkdown(rawMarkdown[c.name] || '분석 결과가 없습니다.')}</div>
+      </div>
+    </div>
+  `).join('');
+
+  panels.innerHTML = summaryPanel + compPanels;
+}
+
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
+}
+
+// ── Markdown Parser ───────────────────────────────────────────────────────
+function parseMarkdown(md) {
+  if (!md) return '';
+  let html = md
+    // Escape HTML
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    // Code blocks
+    .replace(/```[\w]*\n([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+    // Inline code
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    // Headings
+    .replace(/^#### (.+)$/gm, '<h4>$1</h4>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    // Blockquote
+    .replace(/^> (.+)$/gm, '<blockquote><p>$1</p></blockquote>')
+    // Bold
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    // Italic
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+    // HR
+    .replace(/^---$/gm, '<hr/>')
+    // Tables
+    .replace(/\|(.+)\|\n\|[-| :]+\|\n((?:\|.+\|\n?)*)/g, (match, header, rows) => {
+      const ths = header.split('|').filter(s => s.trim()).map(s => `<th>${s.trim()}</th>`).join('');
+      const trs = rows.trim().split('\n').map(row => {
+        const tds = row.split('|').filter(s => s.trim()).map(s => `<td>${s.trim()}</td>`).join('');
+        return `<tr>${tds}</tr>`;
+      }).join('');
+      return `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+    })
+    // Unordered list
+    .replace(/^[-*] (.+)$/gm, '<li>$1</li>')
+    // Ordered list
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    // Wrap consecutive <li>
+    .replace(/(<li>.*<\/li>\n?)+/g, m => '<ul>' + m + '</ul>')
+    // Paragraphs
+    .replace(/^(?!<[hupbtc]).+$/gm, m => m.trim() ? `<p>${m}</p>` : '')
+    // Fix double-wrapped paragraphs
+    .replace(/<p><(h[1-4]|ul|ol|blockquote|table|pre|hr)>/g, '<$1>')
+    .replace(/<\/(h[1-4]|ul|ol|blockquote|table|pre|hr)><\/p>/g, '</$1>');
+
+  return html;
+}
+
+// ── Utils ─────────────────────────────────────────────────────────────────
+function resetAnalysis() {
+  document.getElementById('results-container').classList.remove('visible');
+  document.getElementById('progress-container').classList.remove('visible');
+  analysisResults = {};
+  rawMarkdown = {};
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyResults() {
+  const text = Object.entries(rawMarkdown).map(([name, md]) =>
+    `# ${name}\n\n${md}`
+  ).join('\n\n---\n\n');
+  navigator.clipboard.writeText(text).then(() => showToast('📋 클립보드에 복사되었습니다'));
+}
+
+function downloadResults() {
+  const text = Object.entries(rawMarkdown).map(([name, md]) =>
+    `# ${name}\n\n${md}`
+  ).join('\n\n---\n\n');
+  const blob = new Blob([text], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `strategic-analysis-${new Date().toISOString().slice(0,10)}.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('⬇️ 다운로드 완료');
+}
+
+function showError(msg) {
+  document.getElementById('error-container').innerHTML =
+    `<div class="error-box">⚠️ ${msg}</div>`;
+}
+
+function clearError() {
+  document.getElementById('error-container').innerHTML = '';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  setTimeout(() => t.classList.remove('visible'), 2500);
+}
+</script>
+</body>
+</html>
